@@ -4,7 +4,7 @@ This repository contains a collection of scripts and programs for the ALX Low Le
 
 ## Mandatory Tasks
 
-1. Preprocessor: [0-preprocessor](https://github.com/alx-low_level_programming/0x00-hello_world/0-preprocessor)
+1. Preprocessor: [0-preprocessor](https://github.com/kweenDev/alx-low_level_programming/blob/main/0x00-hello_world/0-preprocessor)
 
    - This script runs a C file through the preprocessor and saves the result into another file.
 
