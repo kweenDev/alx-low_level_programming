@@ -7,26 +7,26 @@ int _putchar(char c);
 
 void print_alphabet(void);
 
-print_alphabet_x10(void);
+void print_alphabet_x10(void);
 
-_islower(int c);
+int _islower(int c);
 
-_isalpha(int c);
+int _isalpha(int c);
 
-print_sign(int n);
+int print_sign(int n);
 
-_abs(int);
+int _abs(int);
 
-print_last_digit(int);
+int print_last_digit(int);
 
-jack_bauer(void);
+void jack_bauer(void);
 
-times_table(void);
+void times_table(void);
 
-add(int, int);
+int add(int, int);
 
-print_to_98(int n);
+void print_to_98(int n);
 
-print_times_table(int n);
+void print_times_table(int n);
 
 #endif
