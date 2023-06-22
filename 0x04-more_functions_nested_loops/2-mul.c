@@ -1,27 +1,16 @@
 #include "main.h"
 
 /**
-* print_number - prints an integer
-* @n: integer to be printed
-*/
-void print_number(int n)
+ * mul - multiplies two integers
+ * @a: int to be multiplied to b
+ * @b: int to be multiplied to a
+ * Return: the result of the operation
+ */
+int mul(int a, int b)
 {
-	unsigned int n1;
+	int c;
 
-	if (n < 0)
-	{
-		n1 = -n;
-		_putchar('-');
-	}
-	else
-	{
-		n1 = n;
-	}
+	c = a * b;
 
-	if (n1 / 10)
-	{
-		print_number(n1 / 10);
-	}
-
-	_putchar((n1 % 10) + '0');
+	return (c);
 }
