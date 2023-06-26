@@ -48,6 +48,6 @@ This directory contains C files that demonstrate various concepts related to poi
 
 ---
 
-**Author:** [kweenDev]
-**GitHub Repository:** [https://github.com/kweenDev/alx-low_level_programming/tree/main/0x05-pointers_arrays_strings]
+**Author:** kweenDev
+**GitHub Repository:** https://github.com/kweenDev/alx-low_level_programming/tree/main/0x05-pointers_arrays_strings
 
