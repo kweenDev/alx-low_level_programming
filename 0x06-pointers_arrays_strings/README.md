@@ -104,4 +104,4 @@ Happy coding, and may the vim be with you!
 
 **Author:** [kweenDev](https://github.com/kweenDev)
 
-**GitHub Repository:** []()
+**GitHub Repository:** [0x06-pointers_arrays_strings](https://github.com/kweenDev/alx-low_level_programming/tree/main/0x06-pointers_arrays_strings)
