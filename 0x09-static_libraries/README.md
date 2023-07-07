@@ -32,11 +32,16 @@ gcc example.c -L. -lmy -o example
 
 Here are some resorces for further reading on static libraries:
 
-`-` [What Is A “C” Library? What Is It Good For?](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html).
-`-` [Creating A Static “C” Library Using “ar” and “ranlib”](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html).
-`-` [Using A "C" Library In A Program](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html).
-`-` [Static Libraries](https://en.wikipedia.org/wiki/Static_library)
-`-` [Creating and Using Static Libraries in C](https://www.geeksforgeeks.org/creating-a-static-library-in-c/)
-`-` [Static Libraries in C](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html)
+- [What Is A “C” Library? What Is It Good For?](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html)
 
-### All files in this repository have been made executables as per the instructions.
+- [Creating A Static “C” Library Using “ar” and “ranlib”](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html)
+
+- [Using A "C" Library In A Program](https://docencia.ac.upc.edu/FIB/USO/Bibliografia/unix-c-libraries.html).
+
+- [Static Libraries](https://en.wikipedia.org/wiki/Static_library)
+
+- [Creating and Using Static Libraries in C](https://www.geeksforgeeks.org/creating-a-static-library-in-c/)
+
+- [Static Libraries in C](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html)
+
+##### All files in this repository have been made executables as per the instructions.
