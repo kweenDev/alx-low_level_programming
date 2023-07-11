@@ -9,20 +9,23 @@
 */
 int count_words(char *str)
 {
-	int count = 0;
-	int i = 0;
+	int flag, c, w;
 
-	while (str[i] != '\0')
+	flag = 0;
+	w = 0;
+
+	for (c = 0; s[c] != '\0'; c++)
 	{
-		while (str[i] != ' ')
-			i++;
-
-		if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
-			count++;
-		i++;
+		if (s[c] == ' ')
+			flag = 0;
+		else if (flag == 0)
+		{
+			flag = 1;
+			w++;
+		}
 	}
 
-	return (count);
+	return (w);
 }
 
 /**
@@ -34,59 +37,42 @@ int count_words(char *str)
 */
 char **strtow(char *str)
 {
-	int i, j, k, num_words;
-	int word_len, word_index, word_start;
-	char **word_arr;
+	char **matrix, *tmp;
+	int i, k = 0, len = 0, words, c = 0, start, end;
 
-if (str == NULL || *str == '\0')
-	return (NULL);
+	while (*(str + len))
+		len++;
+	words = count_word(str);
+	if (words == 0)
+		return (NULL);
 
-num_words = count_words(str);
+	matrix = (char **) malloc(sizeof(char *) * (words + 1));
+	if (matrix == NULL)
+		return (NULL);
 
-word_arr = (char **)malloc((num_words + 1) * sizeof(char *));
-
-if (word_arr == NULL)
-	return (NULL);
-
-i = 0;
-word_index = 0;
-word_start = 0;
-
-while (str[i] != '\0')
-{
-	while (str[i] != ' ')
-		i++;
-
-	if (str[i] != ' ')
+	for (i = 0; i <= len; i++)
 	{
-		word_start = i;
-
-		while (str[i] != ' ' && str[i] != '\0')
-			i++;
-
-		word_len = i - word_start;
-
-		word_arr[word_index] = (char *)malloc((word_len + 1) * sizeof(char));
-
-		if (word_arr[word_index] == NULL)
-			for (j = 0; j < word_index; j++)
-				free(word_arr[j]);
-			free(word_arr);
-			return (NULL);
+		if (str[i] == ' ' || str[i] == '\0')
+		{
+			if (c)
+			{
+				end = i;
+				tmp = (char *) malloc(sizeof(char) * (c + 1));
+				if (tmp == NULL)
+					return (NULL);
+				while (start < end)
+					*tmp++ = str[start++];
+				*tmp = '\0';
+				matrix[k] = tmp - c;
+				k++;
+				c = 0;
+			}
+		}
+		else if (c++ == 0)
+			start = i;
 	}
 
-	for (k = 0; k < word_len; k++)
-		word_arr[word_index][k] = str[word_start + k];
-	word_arr[word_index][k] = '\0';
-	word_index++;
-}
+	matrix[k] = NULL;
 
-i++;
-
-}
-
-word_arr[word_index] = NULL;
-
-return (word_arr);
-
+	return (matrix);
 }
