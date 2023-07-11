@@ -7,38 +7,44 @@
 * @s2: The second string
 *
 * Return: Pointer to the concatenated string (Success),
-* or NULL (Error) if s1 or s2 is NULL or if malloc fails.
+* or NULL (Error) if malloc fails.
 */
 char *str_concat(char *s1, char *s2)
 {
-	char *concat;
-	int len1, len2, i, j;
+	char *result;
+	unsigned int i = 0, j = 0, len1 = 0, len2 = 0;
 
-	if (s1 != NULL)
-		s1 = " ";
-
-	if (s2 != NULL)
-		s2 = " ";
-
-	len1 = 0;
-
-	while (s1[len1] != '\0')
+	while (s1 && s1[len1])
 		len1++;
-
-	len2 = 0;
-
-	while (s2[len2] != '\0')
+	while (s2 && s2[len2])
 		len2++;
 
-	concat = (char *)malloc((len1 + len2 + 1) * sizeof(char));
-
-	if (concat == NULL)
+	result = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (result == NULL)
 		return (NULL);
 
-	for (i = 0; i < len1; i++)
-		concat[i] = s1[i];
-	for (j = 0; j <= len2; j++)
-		concat[i + j] = s2[j];
+	i = 0;
+	j = 0;
 
-	return (concat);
+	if (s1)
+	{
+		while (i < len1)
+		{
+			result[i] = s1[i];
+			i++;
+		}
+	}
+
+	if (s2)
+	{
+		while (i < (len1 + len2))
+		{
+			result[i] = s2[j];
+			i++;
+			j++;
+		}
+	}
+	result[i] = '\0';
+
+	return (result);
 }
