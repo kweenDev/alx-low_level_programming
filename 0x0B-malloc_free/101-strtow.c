@@ -5,12 +5,12 @@ int wordCounterRec(char *str, int i);
 int word_counter(char *str);
 
 /**
- * wordCounterRec - Counts the number of words in a string recursively.
- * @str: The string pointer.
- * @i: The current index.
- *
- * Return: Number of words in the string.
- */
+* wordCounterRec - Counts the number of words in a string recursively.
+* @str: The string pointer.
+* @i: The current index.
+*
+* Return: Number of words in the string.
+*/
 int wordCounterRec(char *str, int i)
 {
 	if (str[i] == '\0')
@@ -21,36 +21,35 @@ int wordCounterRec(char *str, int i)
 }
 
 /**
- * word_counter - Counts the number of words in a 1-D array of strings.
- * @str: The input string.
- *
- * Return: Number of words in the string.
- */
+* word_counter - Counts the number of words in a 1-D array of strings.
+* @str: The input string.
+*
+* Return: Number of words in the string.
+*/
 int word_counter(char *str)
 {
-	int words;
-
 	if (str[0] != ' ')
 		return (1 + wordCounterRec(str, 0));
 	return (wordCounterRec(str, 0));
 }
 
 /**
- * strtow - Splits a string into words.
- * @str: The input string.
- *
- * Return: Pointer to an array of strings (words),
- * or NULL if str is NULL, empty, or if malloc fails.
- */
+* strtow - Splits a string into words.
+* @str: The input string.
+*
+* Return: Pointer to an array of strings (words),
+* or NULL if str is NULL, empty, or if malloc fails.
+*/
 char **strtow(char *str)
 {
 	char **strDup;
-	int i, n, m, words;
+	int i, n, m;
 
 	if (str == NULL || str[0] == '\0')
 		return (NULL);
 
-	words = word_counter(str);
+	int words = word_counter(str);
+
 	if (words < 1)
 		return (NULL);
 
