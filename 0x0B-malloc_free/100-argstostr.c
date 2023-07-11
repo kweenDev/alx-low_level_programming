@@ -2,51 +2,51 @@
 #include <stdlib.h>
 
 /**
-* argstostr - Concatenates all command-line arguments into a single string
-* @ac: The number of command-line arguments.
-* @av: The array of arguments.
+* argstostr - concatenates all arguments of the program.
+* @ac: argument count.
+* @av: pointer to array of size ac.
 *
-* Return: Pointer to the concatenated string, or NULL if ac is 0 or av is
-* NULL, or if malloc fails.
+* Return: Pointer to the concatenated string, or NULL if
+* ac is 0 or av is NULL, or if malloc fails.
 */
 char *argstostr(int ac, char **av)
 {
-	int total_len = 0;
-	int i;
-	char *str;
-	int index;
-	int len = 0;
+	int i, j, k, size;
+	char *arg;
 
-
+	size = 0;
+	k = 0;
 	if (ac == 0 || av == NULL)
 		return (NULL);
-
-	for (i = 0; i < ac; i++)
+	i = 0;
+	while (i < ac)
 	{
-		while (av[i][len] != '\0')
-			len++;
-
-		total_len += len;
-	}
-
-	str = (char *)malloc((total_len + ac + 1) * sizeof(char));
-
-	if (str == NULL)
-		return (NULL);
-
-	for (i = 0; i < ac; i++)
-	{
-		while (av[i][len] != '\0')
+		j = 0;
+		while (av[i][j])
 		{
-			str[index] = av[i][len];
-			index++;
-			len++;
+			size++;
+			j++;
 		}
-		str[index] = '\n';
-		index++;
+		size++;
+		i++;
 	}
-
-	str[index] = '\0';
-
-	return (str);
+	arg = malloc((sizeof(char) * size) + 1);
+	if (arg == NULL)
+		return (NULL);
+	i = 0;
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			arg[k] = av[i][j];
+			j++;
+			k++;
+		}
+		arg[k] = '\n';
+		k++;
+		i++;
+	}
+	arg[k] = '\0';
+	return (arg);
 }
