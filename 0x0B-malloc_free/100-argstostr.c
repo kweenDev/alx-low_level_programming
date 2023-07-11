@@ -15,6 +15,7 @@ char *argstostr(int ac, char **av)
 	int i;
 	char *str;
 	int index;
+	int len = 0;
 
 
 	if (ac == 0 || av == NULL)
@@ -22,8 +23,6 @@ char *argstostr(int ac, char **av)
 
 	for (i = 0; i < ac; i++)
 	{
-		int len = 0;
-
 		while (av[i][len] != '\0')
 			len++;
 
@@ -37,8 +36,6 @@ char *argstostr(int ac, char **av)
 
 	for (i = 0; i < ac; i++)
 	{
-		int len = 0;
-
 		while (av[i][len] != '\0')
 		{
 			str[index] = av[i][len];
