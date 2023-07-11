@@ -44,11 +44,12 @@ char **strtow(char *str)
 {
 	char **strDup;
 	int i, n, m;
+	int words;
 
 	if (str == NULL || str[0] == '\0')
 		return (NULL);
 
-	int words = word_counter(str);
+	words = word_counter(str);
 
 	if (words < 1)
 		return (NULL);
