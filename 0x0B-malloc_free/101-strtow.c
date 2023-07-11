@@ -12,7 +12,7 @@ int count_words(char *str)
 	int count = 0;
 	int i = 0;
 
-	while (str[io] != '\0')
+	while (str[i] != '\0')
 	{
 		while (str[i] != ' ')
 			i++;
@@ -34,19 +34,23 @@ int count_words(char *str)
 */
 char **strtow(char *str)
 {
+	int i, j, k, num_words;
+	int word_len, word_index, word_start;
+	char **word_arr;
+
 if (str == NULL || *str == '\0')
 	return (NULL);
 
-int num_words = count_words(str);
+num_words = count_words(str);
 
-char **word_arr = (char **)malloc((num_words + 1) * sizeof(char *));
+word_arr = (char **)malloc((num_words + 1) * sizeof(char *));
 
 if (word_arr == NULL)
 	return (NULL);
 
-int i = 0;
-int word_index = 0;
-int word_start = 0;
+i = 0;
+word_index = 0;
+word_start = 0;
 
 while (str[i] != '\0')
 {
@@ -60,17 +64,16 @@ while (str[i] != '\0')
 		while (str[i] != ' ' && str[i] != '\0')
 			i++;
 
-		int word_len = i - word_start;
+		word_len = i - word_start;
 
 		word_arr[word_index] = (char *)malloc((word_len + 1) * sizeof(char));
 
 		if (word_arr[word_index] == NULL)
-			for (int j = 0; j < word_index; j++)
+			for (j = 0; j < word_index; j++)
 				free(word_arr[j]);
 			free(word_arr);
 			return (NULL);
 	}
-	int k;
 
 	for (k = 0; k < word_len; k++)
 		word_arr[word_index][k] = str[word_start + k];
@@ -85,4 +88,5 @@ i++;
 word_arr[word_index] = NULL;
 
 return (word_arr);
+
 }
