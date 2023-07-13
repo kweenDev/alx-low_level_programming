@@ -1,106 +1,115 @@
 #include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h>
 #include "main.h"
 
 /**
-* is_digit - checks if a string contains a non-digit char
-* @s: string to be evaluated
-*
-* Return: 0 if a non-digit is found, 1 otherwise
+* _print_number - prints an integer to stdout
+* @n: The number to print
 */
-
-int is_digit(char *s)
+void _print_number(int n)
 {
-	int i = 0;
-
-	while (s[i])
+	if (n < 0)
 	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
-		i++;
+		_putchar(45);
+		n = -n;
 	}
 
-	return (1);
+	if (n > 9)
+	{
+		_print_number(n / 10);
+	}
+
+	_putchar((n % 10) + '0');
 }
 
 /**
-* _strlen - returns the length of a string
-* @s: string to evaluate
+* _is_digit - checks if a character is a digit
+* @c: The character to check
 *
-* Return: the length of the string
+* Return: 1 if the character is a digit, 0 otherwise
 */
-
-int _strlen(char *s)
+int _is_digit(char c)
 {
-	int i = 0;
-
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-
-	return (i);
+	return (c >= '0' && c <= '9');
 }
 
 /**
-* errors - handles errors for main
+* _parse_number - parse a string and returns the
+* number it represents
+* @s: The string to parse
+*
+* Return: The number the string represents
 */
-
-void errors(void)
+int _parse_number(char *s)
 {
-	printf("Error\n");
-	exit(98);
+	int n = 0, sign = 1;
+
+	if (*s == '-')
+	{
+		sign = -1;
+		s++;
+	}
+
+	while (_is_digit(*s))
+	{
+		n = n * 10 + *s - '0';
+		s++;
+	}
+
+	return (n *sign);
+}
+
+/**
+* _mul - multiplies two positive integers
+* @a: The first operand
+* @b: The second operand
+*
+* Return: The product of a and b
+*/
+int _mul(int a, int b)
+{
+	return (a * b);
 }
 
 /**
 * main - multiplies two positive numbers
-* @argc: number of arguments
-* @argv: array of arguments
+* @argc: The number of arguments passed to the program
+* @argv: The array of arguments passed to the program
 *
-* Return: always 0 (Success)
+* Return: 0 on success, 98 on error
 */
-
 int main(int argc, char *argv[])
 {
-	char *s1, *s2;
-	int len1, len2, len, i, carry, digit1, digit2, *result, a = 0;
+	int num1, num2, res;
 
-	s1 = argv[1], s2 = argv[2];
-	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
-		errors();
-	len1 = _strlen(s1);
-	len2 = _strlen(s2);
-	len = len1 + len2 + 1;
-	result = malloc(sizeof(int) * len);
-	if (!result)
-		return (1);
-	for (i = 0; i <= len1 + len2; i++)
-		result[i] = 0;
-	for (len1 = len1 - 1; len1 >= 0; len1--)
+	if (argc != 3)
 	{
-		digit1 = s1[len1] - '0';
-		carry = 0;
-		for (len2 = _strlen(s2) - 1; len2 >= 0; len2--)
-		{
-			digit2 = s2[len2] - '0';
-			carry += result[len1 + len2 + 1] + (digit1 * digit2);
-			result[len1 + len2 + 1] = carry % 10;
-			carry /= 10;
-		}
-		if (carry > 0)
-			result[len1 + len2 + 1] += carry;
+		_putchar('E');
+		_putchar('r');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
+		exit(98);
 	}
-	for (i = 0; i < len - 1; i++)
+
+	num1 = _parse_number(argv[1]);
+	num2 = _parse_number(argv[2]);
+
+	if (num1 < 0 || num2 < 0)
 	{
-		if (result[i])
-			a = 1;
-		if (a)
-			_putchar(result[i] + '0');
+		_putchar('E');
+		_putchar('r');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
+		exit(98);
 	}
-	if (!a)
-		_putchar('0');
+
+	res = _mul(num1, num2);
+	_print_number(res);
 	_putchar('\n');
-	free(result);
 
 	return (0);
 }
