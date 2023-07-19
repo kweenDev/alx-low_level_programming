@@ -22,11 +22,11 @@ This project explores the concept of function pointers through a series of tasks
 
 1. **function_pointers.h**: Header file that contains all the function prototypes used in the project.
 
-2. **0-main.c**: Demonstrates the usage of function pointers to print a name using different print formats.
+2. **0-print_name.c**: Demonstrates the usage of function pointers to print a name using different print formats.
 
-3. **1-main.c**: Illustrates how to execute a function on each element of an array using function pointers.
+3. **1-array_iterator.c**: Illustrates how to execute a function on each element of an array using function pointers.
 
-4. **2-main.c**: Implements a function that searches for an integer in an array using a comparison function pointer.
+4. **2-int_index.c**: Implements a function that searches for an integer in an array using a comparison function pointer.
 
 5. **3-calc.h**: Contains the function prototypes and a data structure for arithmetic operations using function pointers.
 
