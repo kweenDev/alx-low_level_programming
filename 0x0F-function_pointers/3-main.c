@@ -5,10 +5,12 @@
 /**
 * main - Entry point. Performs simple operations.
 * @argc: The number of command line arguments
-*	(including theprogram name).
+*	(including the program name).
 * @argv: An array containing the command line arguments.
 *
-* Return: Always 0 (success).
+* Return: 0 on success, 98 on incorrect number of arguments,
+*	99 on invalid operator, or 100 on division or
+*	modulo by zero.
 */
 int main(int argc, char *argv[])
 {
@@ -30,6 +32,12 @@ int main(int argc, char *argv[])
 	{
 		printf("Error\n");
 		return (99);
+	}
+
+	if ((*argv[2] == '/' || *argv[2] == '%') && num2 == 0)
+	{
+		printf("Error\n");
+		return (100);
 	}
 
 	result = op_func(num1, num2);
