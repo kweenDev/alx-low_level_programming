@@ -12,7 +12,7 @@
 int main(int argc, char *argv[])
 {
 	int i, bytes;
-	char *main_func;
+	unsigned char *main_func;
 
 	if (argc != 2)
 	{
@@ -22,17 +22,17 @@ int main(int argc, char *argv[])
 
 	bytes = atoi(argv[1]);
 
-	if (bytes < 0)
+	if (bytes <= 0)
 	{
 		printf("Error\n");
 		return (2);
 	}
 
-	main_func = (char *) main;
+	main_func = (unsigned char *) main;
 
 	for (i = 0; i < bytes; i++)
 	{
-		printf("%02x ", (unsigned char)main_func[i]);
+		printf("%02x ", main_func[i]);
 		if (i != bytes - 1)
 			printf(" ");
 	}
