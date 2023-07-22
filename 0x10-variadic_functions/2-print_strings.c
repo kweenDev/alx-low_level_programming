@@ -9,9 +9,9 @@
 */
 void print_strings(const char *separator, const unsigned int n, ...)
 {
+	va_list args;
 	unsigned int i;
 	const char *current_str;
-	va_list args;
 
 	va_start(args, n);
 
@@ -23,8 +23,7 @@ void print_strings(const char *separator, const unsigned int n, ...)
 			printf("%s", current_str);
 		else
 			printf("(nil)");
-
-		if (separator != NULL && i < n - 1 && va_arg(args, const char *) != NULL)
+		if (i < n - 1 && separator != NULL)
 			printf("%s", separator);
 	}
 
