@@ -3,20 +3,18 @@ section .data
 	format db '%s', 10, 0	; Format string for printf, with a newline character (10)
 
 section .text
-	extern printf
+	global _start
 
-global main
-
-main:
-	; Set up the stack frame for printf
-	push rbp
-	mov rdi, format	; First argument: Format string
-	mov rsi, hello	; Second argument: Pointer to the string to be printed
-	xor rax, rax	; Clear rax to indicate no vector registers are used
+_start:
+	; Call the printf function to print the message
+	mov rdi, hello	; Load the address of the format string
 	call printf	; Call the printf function
-	pop rbp		; Restore the stack frame
+	add rsp, 8	; Clean up the stack after the call
 
 	; Exit the program
 	mov rax, 60	; System call number for sys_exit (60)
 	xor edi, edi	; Exit status 0
 	syscall
+
+section .bss
+	resb 1		; Reserve 1 byte for the null terminator
