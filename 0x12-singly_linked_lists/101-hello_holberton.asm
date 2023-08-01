@@ -1,19 +1,19 @@
-section .data
-	hello db 'Hello, Holberton', 0
+	extern printf	; Declare the printf function as an external symbol
 
-section .text
-	global _start
+	section .data
+	message: db "Hello, Holberton", 0
+	format: db "%s", 10, 0
 
-_start:
-	; Call the printf function to print the message
-	mov rdi, hello	; Load the address of the format string
-	call printf	; Call the printf function
-	add rsp, 8	; Clean up the stack after the call
+	section .text
+		global main
 
-	; Exit the program
-	mov rax, 60	; System call number for sys_exit (60)
-	xor edi, edi	; Exit status 0
-	syscall
+	main:
+		push rbp
+		mov rdi, format
+		mov rsi, message
+		mov rax, 0
+		call printf
 
-section .bss
-	resb 1		; Reserve 1 byte for the null terminator
+		pop rbp
+		mov rax, 0
+		ret
