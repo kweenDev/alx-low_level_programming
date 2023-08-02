@@ -1,65 +1,34 @@
 #include "lists.h"
 
 /**
-* print_list - Print list nodes until a specified node is reached.
-* @head: Pointer to the head of the list.
-* @end: Pointer to the end node of the list.
-*
-* Return: The number of nodes printed.
-*/
-size_t print_list(const listint_t *head, const listint_t *end)
-{
-	size_t count = 0;
-
-	while (head != end)
-	{
-		printf("[%p] %d\n", (void *)head, head->n);
-		head = head->next;
-		count++;
-	}
-
-	printf("[%p] %d\n", (void *)head, head->n);
-	count++;
-	return (count);
-}
-
-/**
 * print_listint_safe - Prints a listint_t linked list.
-* @head: Pointer to the head of the list.
-*
+* @head: A pointer to the head node of the linked list.
 * Return: The number of nodes in the list.
 */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *slow = head, *fast = head;
-	int loop_flag = 0;
-	size_t count;
+	const listint_t *current = head;
+	size_t count = 0;
+	const listint_t *seen_nodes[1024]; /* Array to store seen nodes */
 
-	if (!head)
-		return (0);
+	size_t i; /* Declare variable at the top */
 
-	while (slow && fast && fast->next)
+	while (current != NULL)
 	{
-		slow = slow->next;
-		fast = fast->next->next;
-
-		if (slow == fast)
+		for (i = 0; i < count; i++)
 		{
-			loop_flag = 1;
-			break;
+			if (current == seen_nodes[i])
+			{
+				printf("-> [%p] %d\n", (void *)current, current->n);
+				return (count); /* Detected a loop, exit */
+			}
 		}
+
+		printf("[%p] %d\n", (void *)current, current->n);
+		seen_nodes[count] = current;
+		count++;
+		current = current->next;
 	}
 
-	if (loop_flag)
-	{
-		slow = head;
-		count = print_list(slow, fast);
-		printf("-> [%p] %d\n", (void *)fast, fast->n);
-		return (count + 1);
-	}
-	else
-	{
-		count = print_list(head, NULL);
-		return (count);
-	}
+	return (count);
 }
