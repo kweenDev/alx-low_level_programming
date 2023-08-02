@@ -4,7 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Definition for singly-linked list node */
+/**
+* struct listint_s - singly linked list
+* @n: integer data
+* @next: points to the next node
+*
+* Description: A singly linked list node structure with an
+* integer data and a pointer to the next node.
+*/
 struct listint_s
 {
 	int n;
