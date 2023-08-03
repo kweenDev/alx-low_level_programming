@@ -2,15 +2,7 @@
 
 ## 0x14-bit_manipulation
 
-   _  _
-  | || |
-  | || |_
-  |__   _|
-     | |
-     |_|
-
-_ASCII art representation of bit_
-
+_01000010 01101001 01110100 00100000 01001101 01100001 01101110 01101001 01110000 01110101 01101100 01100001 01110100 01101001 01101111 01101110_
 
 ## Overview
 
@@ -21,6 +13,7 @@ Ahoy there, code voyagers! 🏴‍☠️ Prepare to embark on an exhilarating jo
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Magical Bit Spells](#magical-bit-spells)
+- [Bit Manipulation Tasks](#bit-manipulation-tasks)
 - [Bit Trivia](#bit-trivia)
 - [Challenge Accepted](#challenge-accepted)
 - [Contributing](#contributing)
