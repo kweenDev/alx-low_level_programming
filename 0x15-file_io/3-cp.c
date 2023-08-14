@@ -4,74 +4,55 @@
 #include <fcntl.h>
 #include "main.h"
 
+#define MAXSIZE 1024
+
 /**
-* error_exit - Print error message and exit with given status code.
+* error_exit - Print error messages and exits with given status code.
 * @msg: Error message.
 * @exit_code: Status code to exit with.
+* @fd: File descriptor (for cases where applicable)
+* Return: Void
 */
-void error_exit(char *msg, int exit_code)
+void error_exit(char *msg, int exit_code, int fd)
 {
-	dprintf(STDERR_FILENO, "%s\n", msg);
+	if (fd != 0)
+		dprintf(STDERR_FILENO, "%s %d\n", msg, fd);
+	else
+		dprintf(STDERR_FILENO, "%s\n", msg);
 	exit(exit_code);
-}
-
-/**
-* open_files - Open source and destination files.
-* @src_filename: Source file name.
-* @dest_filename: Destination file name.
-* Return: Array containing file descriptors for source and
-* destination files.
-*/
-int *open_files(char *src_filename, char *dest_filename)
-{
-	int *fds = malloc(2 * sizeof(int));
-
-	fds[0] = open(src_filename, O_RDONLY);
-
-	if (fds[0] == -1)
-		error_exit("Error: Can't read from file", 98);
-
-	fds[1] = open(dest_filename, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (fds[1] == -1)
-	{
-		close(fds[0]);
-		error_exit("Error: Can't write to file", 99);
-	}
-
-	return (fds);
-}
-
-/**
-* close_files - Close source and destination files.
-* @fds: Array containing file descriptors for source and
-*	destination files.
-*/
-void close_files(int *fds)
-{
-	if (close(fds[0]) == -1 || close(fds[1]) == -1)
-		error_exit("Error: Can't close file descriptor", 100);
-	free(fds);
 }
 
 /**
 * copy_content - Copy content from source to destination file.
 * @src_fd: Source file descriptor.
 * @dest_fd: Destination file descriptor.
+* Return: Void
 */
 void copy_content(int src_fd, int dest_fd)
 {
 	ssize_t bytes_read, bytes_written;
-	char buffer[1024];
+	char buffer[MAXSIZE];
 
-	while ((bytes_read = read(src_fd, buffer, sizeof(buffer))) > 0)
+	while ((bytes_read = read(src_fd, buffer, MAXSIZE)) != 0)
 	{
 		bytes_written = write(dest_fd, buffer, bytes_read);
-		if (bytes_written == -1 || bytes_written != bytes_read)
-			error_exit("Error: Can't write to file", 99);
+		if (bytes_read == -1 || bytes_written != bytes_read)
+		{
+			close(src_fd);
+			close(dest_fd);
+			error_exit("Error: Can't write to", 99, 0);
+		}
 	}
 
 	if (bytes_read == -1)
-		error_exit("Error: Can't read from file", 98);
+	{
+		close(src_fd);
+		close(dest_fd);
+		error_exit("Error: Can't read from file", 98, 0);
+	}
+
+	if (close(src_fd) == -1 || close(dest_fd) == -1)
+		error_exit("Error: Can't close file descriptor", 100, 0);
 }
 
 /**
@@ -82,14 +63,22 @@ void copy_content(int src_fd, int dest_fd)
 */
 int main(int ac, char **av)
 {
-	int *fds;
+	int fd_from, fd_to;
 
 	if (ac != 3)
-		error_exit("Usage: cp file_from file_to", 97);
+		error_exit("Usage: cp file_from file_to", 97, 0);
 
-	fds = open_files(av[1], av[2]);
-	copy_content(fds[0], fds[1]);
-	close_files(fds);
+	fd_from = open(av[1], O_RDONLY);
+
+	if (fd_from == -1)
+		error_exit("Error: Can't read from file", 98, 0);
+
+	fd_to = open(av[2], O_CREAT | O_TRUNC | O_WRONLY, 0664);
+
+	if (fd_to == -1)
+		error_exit("Error: Can't write to", 99, 0);
+
+	copy_content(fd_from, fd_to);
 
 	return (0);
 }
