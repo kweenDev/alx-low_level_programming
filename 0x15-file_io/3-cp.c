@@ -44,11 +44,19 @@ int main(int ac, char **av)
 	{
 		bytes_written = write(fd_to, buffer, bytes_read);
 		if (bytes_written == -1 || bytes_written != bytes_read)
+		{
+			close(fd_from);
+			close(fd_to);
 			error_exit("Error: Can't write to file", 99);
+		}
 	}
 
 	if (bytes_read == -1)
+	{
+		close(fd_from);
+		close(fd_to);
 		error_exit("Error: Can't read from file", 98);
+	}
 
 	if (close(fd_from) == -1 || close(fd_to) == -1)
 		error_exit("Error: Can't close file descriptor", 100);
