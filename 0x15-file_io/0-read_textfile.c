@@ -1,50 +1,38 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include "main.h"
 
 /**
-* read_textfile - Read and print contents of a text file.
+* read_textfile - Read and prints content of a text file.
 * @filename: Name of the file to read.
 * @letters: Number of letters to read and print.
+*
 * Return: Number of letters read and printed, or 0 on failure.
 */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int fd = open(filename, O_RDONLY);
-	ssize_t bytes_read, bytes_written;
-	char *buffer;
+	int fd;		/* File descriptor for the opened file */
+	ssize_t read_chars;	/* Number of characters read */
+	char buffer[1024];	/* Buffer for reading content */
 
 	if (filename == NULL)
 		return (0);
 
+	fd = open(filename, O_RDONLY);	/* Open the file in read-only mode */
 	if (fd == -1)
 		return (0);
 
-	buffer = malloc(sizeof(char) * letters);
-
-	if (buffer == NULL)
+	read_chars = read(fd, buffer, letters);	/* Read up to 'letters' characters */
+	if (read_chars == -1)
 	{
-		close(fd);
+		close(fd);	/* Close the file in case of error */
 		return (0);
 	}
 
-	bytes_read = read(fd, buffer, letters);
+	/* Write the content to standard output */
+	write(STDOUT_FILENO, buffer, read_chars);
+	close(fd);	/* Close the file */
 
-	if (bytes_read == -1)
-	{
-		free(buffer);
-		close(fd);
-		return (0);
-	}
-
-	bytes_written = write(STDOUT_FILENO, buffer, bytes_read);
-
-	free(buffer);
-	close(fd);
-
-	if (bytes_written != bytes_read)
-		return (0);
-
-	return (bytes_written);
+	return (read_chars);
 }
