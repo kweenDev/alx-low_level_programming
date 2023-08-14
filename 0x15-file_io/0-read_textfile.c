@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h> /* Include header for 'free' */
 #include "main.h"
 
 /**
@@ -14,7 +15,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 {
 	int fd;		/* File descriptor for the opened file */
 	ssize_t read_chars;	/* Number of characters read */
-	char buffer[1024];	/* Buffer for reading content */
+	char *buffer;	/* Buffer for reading content */
 
 	if (filename == NULL)
 		return (0);
@@ -22,6 +23,13 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	fd = open(filename, O_RDONLY);	/* Open the file in read-only mode */
 	if (fd == -1)
 		return (0);
+
+	buffer = malloc(sizeof(char) * letters);/* Allocate memory for buffer*/
+	if (buffer == NULL)
+	{
+		close(fd); /* Close file if memory allocation fails */
+		return (0);
+	}
 
 	read_chars = read(fd, buffer, letters);	/* Read up to 'letters' characters */
 	if (read_chars == -1)
