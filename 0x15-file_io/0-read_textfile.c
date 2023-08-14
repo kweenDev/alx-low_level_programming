@@ -26,12 +26,14 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	read_chars = read(fd, buffer, letters);	/* Read up to 'letters' characters */
 	if (read_chars == -1)
 	{
+		free(buffer); /* Free memory */
 		close(fd);	/* Close the file in case of error */
 		return (0);
 	}
 
 	/* Write the content to standard output */
 	write(STDOUT_FILENO, buffer, read_chars);
+	free(buffer); /* Free the allocated memory */
 	close(fd);	/* Close the file */
 
 	return (read_chars);
