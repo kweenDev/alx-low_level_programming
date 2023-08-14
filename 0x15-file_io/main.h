@@ -16,8 +16,4 @@ int append_text_to_file(const char *filename, char *text_content);
 void error_exit(char *msg, int exit_code);
 int main(int ac, char **av);
 
-/* Task 4: elf */
-void print_elf_header(Elf64_Ehdr *ehdr);
-int main(int ac, char **av);
-
 #endif /* MAIN_H */
