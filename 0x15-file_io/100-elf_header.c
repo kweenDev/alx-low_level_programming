@@ -1,26 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <elf.h>
-#include "main.h"
 
 /**
-* error_exit - Print error message and exit with given status code.
-* @msg: Error message.
-* @exit_code: Status code to exit with.
+* print_error - Prints an error message and exits with status code 98.
+* @msg: Error message to display.
 */
-void error_exit(char *msg, int exit_code)
+void print_error(char *msg)
 {
 	dprintf(STDERR_FILENO, "%s\n", msg);
-	exit(exit_code);
+	exit(98);
 }
 
 /**
-* print_elf_header - Print ELF header information.
-* @ehdr: Pointer to ELF header structure.
+* print_header - Prints the ELF header information.
+* @header: Pointer to the ELF header.
 */
-void print_elf_header(Elf64_Ehdr *ehdr)
+void print_header(Elf64_Ehdr *header)
 {
 	int i;
 
@@ -28,55 +26,63 @@ void print_elf_header(Elf64_Ehdr *ehdr)
 	printf("  Magic:   ");
 
 	for (i = 0; i < EI_NIDENT; i++)
-		printf("%02x ", ehdr->e_ident[i]);
+		printf("%02x ", header->e_ident[i]);
 	printf("\n");
-	printf("  Class:                             %s\n",
-	ehdr->e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64");
-	printf("  Data:                              %s\n", ehdr->e_ident[EI_DATA] ==
-		ELFDATA2LSB ? "2's complement, little endian" : "Unknown");
+	printf("  Class:                             ");
+
+	if (header->e_ident[EI_CLASS] == ELFCLASS32)
+		printf("ELF32\n");
+	else if (header->e_ident[EI_CLASS] == ELFCLASS64)
+		printf("ELF64\n");
+
+	printf("  Data:                              %s\n",
+(header->e_ident[EI_DATA] == ELFDATA2LSB) ?
+"2's complement, little endian" : "2's complement, big endian");
 	printf("  Version:                           %d (current)\n",
-		ehdr->e_ident[EI_VERSION]);
-	printf("  OS/ABI:                            %s\n",
-	ehdr->e_ident[EI_OSABI] ==
-	ELFOSABI_SYSV ? "UNIX - System V" : "Unknown");
+		header->e_ident[EI_VERSION]);
+	printf("  OS/ABI:                            ");
+
+	printf("\n");
 	printf("  ABI Version:                       %d\n",
-	ehdr->e_ident[EI_ABIVERSION]);
-	printf("  Type:                              %s\n", ehdr->e_type ==
-		ET_EXEC ? "EXEC (Executable file)" : "Unknown");
-	printf("  Entry point address:               0x%lx\n",
-	(unsigned long)ehdr->e_entry);
+	header->e_ident[EI_ABIVERSION]);
+	printf("  Type:                              ");
+
+	printf("\n");
+	printf("  Entry point address:               %#lx\n", header->e_entry);
 }
 
 /**
-* main - Display information contained in ELF header.
-* @ac: Argument count.
-* @av: Argument vector.
-* Return: 0 on success, appropriate error code on failure.
+* main - Entry point of the program.
+* @argc: Number of command-line arguments.
+* @argv: Array of command-line argument strings.
+* Return: 0 on success, 98 on error.
 */
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
 	int fd;
-	Elf64_Ehdr ehdr;
+	Elf64_Ehdr header;
 
-	if (ac != 2)
-		error_exit("Usage: elf_header elf_filename", 98);
+	if (argc != 2)
+		print_error("Usage: elf_header elf_filename");
 
-	fd = open(av[1], O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
+
 	if (fd == -1)
-		error_exit("Error: Can't read ELF file", 98);
+		print_error("Error: Can't open file");
 
-	if (read(fd, &ehdr, sizeof(ehdr)) != sizeof(ehdr))
-		error_exit("Error: Can't read ELF header", 98);
+	if (read(fd, &header, sizeof(header)) != sizeof(header))
+		print_error("Error: Can't read file");
 
-	if (ehdr.e_ident[EI_MAG0] != ELFMAG0 || ehdr.e_ident[EI_MAG1] != ELFMAG1 ||
-			ehdr.e_ident[EI_MAG2] != ELFMAG2 ||
-			ehdr.e_ident[EI_MAG3] != ELFMAG3)
-		error_exit("Error: Not an ELF file", 98);
+	if (header.e_ident[EI_MAG0] != ELFMAG0 ||
+	header.e_ident[EI_MAG1] != ELFMAG1 ||
+	header.e_ident[EI_MAG2] != ELFMAG2 ||
+	header.e_ident[EI_MAG3] != ELFMAG3)
+		print_error("Error: Not an ELF file");
 
-	print_elf_header(&ehdr);
+	print_header(&header);
 
 	if (close(fd) == -1)
-		error_exit("Error: Can't close file descriptor", 100);
+		print_error("Error: Can't close file");
 
 	return (0);
 }
