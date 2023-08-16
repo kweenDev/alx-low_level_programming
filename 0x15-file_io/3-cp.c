@@ -59,7 +59,7 @@ void copy_content(int src_fd, int dest_fd, const char *src_filename)
 	}
 
 	if (close(src_fd) == -1 || close(dest_fd) == -1)
-		error_exit("Error: Can't close file descriptor", 100, NULL);
+		error_exit("Error: Can't close fd", 100, NULL);
 }
 
 /**
