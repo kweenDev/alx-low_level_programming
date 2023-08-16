@@ -16,10 +16,14 @@
 */
 void error_exit(const char *msg, int exit_code, const char *filename)
 {
+	char error_msg[256]; /* Increased buffer size */
+
 	if (filename)
-		dprintf(STDERR_FILENO, "%s %s\n", msg, filename);
+		snprintf(error_msg, sizeof(error_msg), "%s %s\n", msg, filename);
 	else
-		dprintf(STDERR_FILENO, "%s\n", msg);
+		snprintf(error_msg, sizeof(error_msg), "%s\n", msg);
+
+	dprintf(STDERR_FILENO, "%s", error_msg);
 	exit(exit_code);
 }
 
