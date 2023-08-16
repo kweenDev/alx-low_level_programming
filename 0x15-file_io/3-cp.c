@@ -35,24 +35,23 @@ void copy_content(int src_fd, int dest_fd, const char *src_filename)
 	ssize_t bytes_read, bytes_written;
 	char buffer[MAXSIZE];
 
-	while ((bytes_read = read(src_fd, buffer, MAXSIZE)) != 0)
+	while ((bytes_read = read(src_fd, buffer, MAXSIZE)) > 0)
 	{
-		if (bytes_read == -1)
-		{
-			close(src_fd);
-			close(dest_fd);
-			error_exit("Error: Can't read from file", 98,
-					src_filename);
-		}
-
 		bytes_written = write(dest_fd, buffer, bytes_read);
 
-		if (bytes_written < 0)
+		if (bytes_written != bytes_read)
 		{
 			close(src_fd);
 			close(dest_fd);
 			error_exit("Error: Can't write to", 99, src_filename);
 		}
+	}
+
+	if (bytes_read == -1)
+	{
+		close(src_fd);
+		close(dest_fd);
+		error_exit("Error: Can't read from file", 98, src_filename);
 	}
 
 	if (close(src_fd) == -1 || close(dest_fd) == -1)
