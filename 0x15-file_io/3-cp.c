@@ -14,7 +14,7 @@
 * @filename: Name of the file associated with the error.
 * Return: Void
 */
-void error_exit(char *msg, int exit_code, const char *filename)
+void error_exit(const char *msg, int exit_code, const char *filename)
 {
 	if (filename)
 		dprintf(STDERR_FILENO, "%s %s\n", msg, filename);
