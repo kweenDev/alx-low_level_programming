@@ -47,7 +47,7 @@ void copy_content(int src_fd, int dest_fd, const char *src_filename)
 
 		bytes_written = write(dest_fd, buffer, bytes_read);
 
-		if (bytes_written != bytes_read)
+		if (bytes_written < 0)
 		{
 			close(src_fd);
 			close(dest_fd);
