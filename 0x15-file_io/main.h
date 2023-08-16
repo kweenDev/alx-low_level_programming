@@ -13,7 +13,8 @@ int create_file(const char *filename, char *text_content);
 int append_text_to_file(const char *filename, char *text_content);
 
 /* Task 3: cp */
-void error_exit(char *msg, int exit_code, int fd);
+void error_exit(char *msg, int exit_code, const char *filename);
+void copy_content(int src_fd, int dest_fd, const char *src_filename);
 int main(int ac, char **av);
 
 #endif /* MAIN_H */
