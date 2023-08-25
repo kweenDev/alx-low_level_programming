@@ -67,27 +67,17 @@ void copyFile(const char *source, const char *destination)
 		if (_dprintf(file_to, "%.*s", (int)bytesRead, buffer) < 0)
 		{
 			_dprintf(2, "Error: Can't write to %s\n", destination);
-			close(file_from);
-			close(file_to);
-			exit(99);
+			close(file_from), close(file_to), exit(99);
 		}
 	}
 
 	if (bytesRead == -1)
-	{
-		_dprintf(2, "Error: Can't read from file %s\n", source);
-		close(file_from);
-		close(file_to);
-		exit(98);
-	}
+		_dprintf(2, "Error: Can't read from file %s\n",
+	source), close(file_from), close(file_to), exit(98);
 
 	if (close(file_from) == -1 || close(file_to) == -1)
-	{
 		_dprintf(2, "Error: Can't close fd %d\n", (file_from == -1) ?
-	file_to : file_from);
-		exit(100);
-	}
-
+	file_to : file_from), exit(100);
 	exit(0);
 }
 
