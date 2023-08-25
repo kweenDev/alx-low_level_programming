@@ -1,17 +1,6 @@
 #include "main.h"
 
 /**
-* _putchar - Writes a character to the standard output.
-* @c: The character to be written.
-*
-* Return: void.
-*/
-void _putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-/**
 * _dprintf - Custom printf-like function that writes formatted output
 *		to a file destcriptor.
 * @fd: The file descriptor to write to.
