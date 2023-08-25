@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h> /* Include header for 'free' */
 #include "main.h"
 
 /**

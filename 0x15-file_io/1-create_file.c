@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h> /*Include the neccessary header for open */
 #include "main.h"
 
 /**

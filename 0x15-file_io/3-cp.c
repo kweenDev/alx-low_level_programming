@@ -1,91 +1,127 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h> /* Add this header for strerror */
 #include "main.h"
 
-#define MAXSIZE 1024
-
 /**
-* error_exit - Print error messages and exits with given status code.
-* @msg: Error message.
-* @exit_code: Status code to exit with.
-* @filename: Name of the file associated with the error.
-* Return: Void
+* _putchar - Writes a character to the standard output.
+* @c: The character to be written.
+*
+* Return: void.
 */
-void error_exit(const char *msg, int exit_code, const char *filename)
+void _putchar(char c)
 {
-	char error_msg[256]; /* Increased buffer size */
-
-	if (filename)
-		snprintf(error_msg, sizeof(error_msg), "%s %s\n", msg, filename);
-	else
-		snprintf(error_msg, sizeof(error_msg), "%s\n", msg);
-
-	dprintf(STDERR_FILENO, "%s", error_msg);
-	exit(exit_code);
+	write(1, &c, 1);
 }
 
 /**
-* copy_content - Copy content from source to destination file.
-* @src_fd: Source file descriptor.
-* @dest_fd: Destination file descriptor.
-* @src_filename: Name of the source file.
-* Return: Void
+* _dprintf - Custom printf-like function that writes formatted output
+*		to a file destcriptor.
+* @fd: The file descriptor to write to.
+* @format: The format string.
+* @...: Additional arguments.
+*
+* Description: This function emulates the behaviour of dprintf using
+*		write system call.
+* Return: The number of characters written.
 */
-void copy_content(int src_fd, int dest_fd, const char *src_filename)
+int _dprintf(int fd, const char *format, ...)
 {
-	ssize_t bytes_read, bytes_written;
-	char buffer[MAXSIZE];
+	va_list args;
 
-	while ((bytes_read = read(src_fd, buffer, MAXSIZE)) > 0)
+	va_start(args, format);
+
+	char buffer[1024];
+	int result = vsnprintf(buffer, sizeof(buffer), format, args);
+
+	write(fd, buffer, result);
+
+	va_end(args);
+
+	return (result);
+}
+
+/**
+* copyFile - Copies content from source file to destination file.
+* @source: The path to the source file.
+* @destination: The path to the destination file.
+*
+* Description: This function reads content from the source file and
+*		copies it to the destination file. It handles various
+*		errors such as file not found, permission issues, and
+*		write failures.
+* Return: void.
+*/
+void copyFile(const char *source, const char *destination)
+{
+	int file_from, file_to;
+	ssize_t bytesRead;
+	char buffer[1024];
+
+	/* Open source file for reading */
+	file_from = open(source, O_RDONLY);
+
+	if (file_from == -1)
 	{
-		bytes_written = write(dest_fd, buffer, bytes_read);
+		_dprintf(2, "Error: Can't read from file %s\n", source);
+		exit(98);
+	}
 
-		if (bytes_written != bytes_read)
+	file_to = open(destination, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR |
+	S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+
+	if (file_to == -1)
+	{
+		_dprintf(2, "Error: Can't write to %s\n", destination);
+		close(file_from);
+		exit(99);
+	}
+
+	while ((bytesRead = read(file_from, buffer, sizeof(buffer))) > 0)
+	{
+		if (_dprintf(file_to, "%.*s", (int)bytesRead, buffer) < 0)
 		{
-			close(src_fd);
-			close(dest_fd);
-			error_exit("Error: Can't write to", 99, src_filename);
+			_dprintf(2, "Error: Can't write to %s\n", destination);
+			close(file_from);
+			close(file_to);
+			exit(99);
 		}
 	}
 
-	if (bytes_read == -1)
+	if (bytesRead == -1)
 	{
-		close(src_fd);
-		close(dest_fd);
-		error_exit("Error: Can't read from file", 98, src_filename);
+		_dprintf(2, "Error: Can't read from file %s\n", source);
+		close(file_from);
+		close(file_to);
+		exit(98);
 	}
 
-	if (close(src_fd) == -1 || close(dest_fd) == -1)
-		error_exit("Error: Can't close fd", 100, NULL);
+	if (close(file_from) == -1 || close(file_to) == -1)
+	{
+		_dprintf(2, "Error: Can't close fd %d\n", (file_from == -1) ?
+	file_to : file_from);
+		exit(100);
+	}
+
+	exit(0);
 }
 
 /**
-* main - Copy the content of one file to another.
-* @ac: Argument count.
-* @av: Argument vector.
-* Return: 0 on success, appropriate error code on failure.
+* main - Entry point of the program
+* @argc: The number of command-line arguments.
+* @argv: An array of command-line argument strings.
+*
+* Description: This program copies the content from one file to
+*		another. It handles usage errors and file
+*		operations erors.
+* Return: Always 0 (success).
 */
-int main(int ac, char **av)
+int main(int argc, char *argv[])
 {
-	int fd_from, fd_to;
+	if (argc != 3)
+	{
+		_dprintf(2, "Usage: %s file_from file_to\n", argv[0]);
+		exit(97);
+	}
 
-	if (ac != 3)
-		error_exit("Usage: cp file_from file_to", 97, NULL);
-
-	fd_from = open(av[1], O_RDONLY);
-
-	if (fd_from == -1)
-		error_exit("Error: Can't read from file", 98, av[1]);
-
-	fd_to = open(av[2], O_CREAT | O_TRUNC | O_WRONLY, 0664);
-
-	if (fd_to == -1)
-		error_exit("Error: Can't write to", 99, av[2]);
-
-	copy_content(fd_from, fd_to, av[1]);
+	copyFile(argv[1], argv[2]);
 
 	return (0);
 }
