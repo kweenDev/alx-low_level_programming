@@ -21,8 +21,8 @@ int create_file(const char *filename, char *text_content);
 int append_text_to_file(const char *filename, char *text_content);
 
 /* Task 3: cp */
-void _putchar(char c);
-int _dprintf(int fd, const char *format, ...);
-void copyFile(const char *source, const char *destination);
+void handle_error_reading(const char *filename);
+int open_and_create(const char *filename);
+void handle_error_writing(int file_from, const char *filename);
 
 #endif /* MAIN_H */
