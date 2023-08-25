@@ -15,10 +15,12 @@ int _dprintf(int fd, const char *format, ...)
 {
 	va_list args;
 
+	char buffer[1024];
+	int result;
+
 	va_start(args, format);
 
-	char buffer[1024];
-	int result = vsnprintf(buffer, sizeof(buffer), format, args);
+	result = vsnprintf(buffer, sizeof(buffer), format, args);
 
 	va_end(args);
 
