@@ -57,7 +57,7 @@ void copyFile(const char *source, const char *destination)
 
 	if (file_from == -1)
 	{
-		_dprintf(2, "Error: Can't read from file %s\n", source);
+		_dprintf(2, "Error: Can't read from file %s", source);
 		_dprintf(2, "\n");
 		exit(98);
 	}
@@ -67,7 +67,7 @@ void copyFile(const char *source, const char *destination)
 
 	if (file_to == -1)
 	{
-		_dprintf(2, "Error: Can't write to %s\n", destination);
+		_dprintf(2, "Error: Can't write to %s", destination);
 		_dprintf(2, "\n");
 		close(file_from);
 		exit(99);
@@ -75,15 +75,15 @@ void copyFile(const char *source, const char *destination)
 
 	while ((bytesRead = read(file_from, buffer, sizeof(buffer))) > 0)
 		if (_dprintf(file_to, "%.*s", (int)bytesRead, buffer) < 0)
-			_dprintf(2, "Error: Can't write to %s\n", destination);
+			_dprintf(2, "Error: Can't write to %s", destination);
 	close(file_from), close(file_to), exit(99);
 
 	if (bytesRead == -1)
-		_dprintf(2, "Error: Can't read from file %s\n",
+		_dprintf(2, "Error: Can't read from file %s",
 	source), close(file_from), close(file_to), exit(98);
 
 	if (close(file_from) == -1 || close(file_to) == -1)
-		_dprintf(2, "Error: Can't close fd %d\n", (file_from == -1) ?
+		_dprintf(2, "Error: Can't close fd %d", (file_from == -1) ?
 	file_to : file_from), exit(100), exit(0);
 }
 
@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 	if (argc != 3)
 	{
 		_dprintf(2, "Usage: %s file_from file_to\n", argv[0]);
+		_dprintf(2, "\n");
 		exit(97);
 	}
 
