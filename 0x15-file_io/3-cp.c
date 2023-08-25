@@ -26,6 +26,12 @@ int _dprintf(int fd, const char *format, ...)
 
 	write(fd, buffer, result);
 
+	/* If the file descriptor is STDERR, also write to STDOUT */
+	if (fd == 2)
+	{
+		write(1, buffer, result);
+	}
+
 	return (result);
 }
 
