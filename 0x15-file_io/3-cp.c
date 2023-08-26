@@ -1,31 +1,6 @@
 #include "main.h"
 
 /**
-* main - Entry point of the program
-* @argc: The number of command-line arguments.
-* @argv: An array of command-line argument strings.
-*
-* Description: This program copies the content from one file to
-* another. It handles usage errors and file operations errors.
-* Return: Always 0 (success).
-*/
-int main(int argc, char *argv[])
-{
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		return (EXIT_FAILURE);
-	}
-
-	if (!copy_file(argv[1], argv[2]))
-	{
-		return (EXIT_FAILURE);
-	}
-
-	return (EXIT_SUCCESS);
-}
-
-/**
 * copy_file - Copies content from source file to destination file.
 * @source: The path to the source file.
 * @destination: The path to the destination file.
@@ -113,4 +88,29 @@ void handle_error_writing(int file_from, const char *filename)
 	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
 	close(file_from);
 	exit(EXIT_FAILURE);
+}
+
+/**
+* main - Entry point of the program
+* @argc: The number of command-line arguments.
+* @argv: An array of command-line argument strings.
+*
+* Description: This program copies the content from one file to
+* another. It handles usage errors and file operations errors.
+* Return: Always 0 (success).
+*/
+int main(int argc, char *argv[])
+{
+	if (argc != 3)
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n      ");
+		return (EXIT_FAILURE);
+	}
+
+	if (!copy_file(argv[1], argv[2]))
+	{
+		return (EXIT_FAILURE);
+	}
+
+	return (EXIT_SUCCESS);
 }
