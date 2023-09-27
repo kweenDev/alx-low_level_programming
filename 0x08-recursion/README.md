@@ -1,19 +1,17 @@
-File 0-puts_recursion.c is a function that prints a string, followed by a new line.
+# 0x08 - Recursion
 
-File 1-print_rev_recursion.c is a function that prints a string in reverse.
+## What is recursion?
+- Recursion is a fundamental concept in programming, that involves a function calling itself to solve problems.
+It's a powerful technique with numerous applications, but it can be a bit tricky to grasp initially.
 
-File 2-strlen_recursion.c is a function that returns the length of a string.
-
-File 3-factorial.c is a function that returns the factorial of a given number.
-
-File 4-pow_recursion.c is a function that returns the value of x raised to the power of y.
-
-File 5-sqrt_recursion.c is a function that returns the natural square root of a number.
-
-File 6-is_prime_number.c is a function that returns 1 if the input integer is a prime number, otherwise return 0.
-
-File 100-is_palindrome.c is a function that returns 1 if a string is a palindrome and 0 if not.
-
-File 101-wildcmp.c is a function that compares two strings and returns 1 if the strings can be considered identical, otherwise return 0. It uses the concept of wildcards.
-
-File main.h is the header file containing the function prototypes.
+#### List of files:
+- 0-puts_recursion.c is a function that prints a string, followed by a new line.
+- 1-print_rev_recursion.c is a function that prints a string in reverse.
+- 2-strlen_recursion.c is a function that returns the length of a string.
+- 3-factorial.c is a function that returns the factorial of a given number.
+- 4-pow_recursion.c is a function that returns the value of x raised to the power of y.
+- 5-sqrt_recursion.c is a function that returns the natural square root of a number.
+- 6-is_prime_number.c is a function that returns 1 if the input integer is a prime number, otherwise return 0.
+- 100-is_palindrome.c is a function that returns 1 if a string is a palindrome and 0 if not.
+- 101-wildcmp.c is a function that compares two strings and returns 1 if the strings can be considered identical, otherwise return 0. It uses the concept of wildcards.
+- main.h is the header file containing the function prototypes.
