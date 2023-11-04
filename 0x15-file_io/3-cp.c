@@ -19,8 +19,7 @@ int copy_file(const char *source, const char *destination)
 
 	if (file_from < 0)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-	source);
+		fprintf(stderr, "Error: Can't read from file %s\n", source);
 		return (0);
 	}
 
@@ -35,8 +34,10 @@ int copy_file(const char *source, const char *destination)
 		bytesWritten = write(file_to, buffer, bytesRead);
 
 		if (bytesWritten != bytesRead)
-		handle_error_writing(file_from, destination);
+		{
+			handle_error_writing(file_from, destination);
 			return (0);
+		}
 	}
 
 	if (bytesRead < 0)
@@ -44,13 +45,11 @@ int copy_file(const char *source, const char *destination)
 		handle_error_reading(source), close(file_from), close(file_to);
 		return (0);
 	}
-
 	if (close(file_from) < 0 || close(file_to) < 0)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd\n");
+		fprintf(stderr, "Error: Can't close fd\n");
 		return (0);
 	}
-
 	return (1);
 }
 
@@ -60,7 +59,7 @@ int copy_file(const char *source, const char *destination)
 */
 void handle_error_reading(const char *filename)
 {
-	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
+	fprintf(stderr, "Error: Can't read from file %s\n", filename);
 	exit(EXIT_FAILURE);
 }
 
@@ -74,7 +73,7 @@ int open_and_create(const char *filename)
 	int fd = open(filename, O_TRUNC | O_CREAT | O_WRONLY, 0664);
 
 	if (fd < 0)
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
+		fprintf(stderr, "Error: Can't write to %s\n", filename);
 	return (fd);
 }
 
@@ -85,7 +84,7 @@ int open_and_create(const char *filename)
 */
 void handle_error_writing(int file_from, const char *filename)
 {
-	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
+	fprintf(stderr, "Error: Can't write to %s\n", filename);
 	close(file_from);
 	exit(EXIT_FAILURE);
 }
@@ -103,7 +102,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n      ");
+		fprintf(stderr, "Usage: cp file_from file_to\n      ");
 		return (EXIT_FAILURE);
 	}
 
