@@ -6,7 +6,7 @@
 *
 * Description: The function creates a hash table and returns
 *		a pointer to the newly created hash table.
-* Returns: A pointer to the newly created hash table, NULL on failure
+* Return: A pointer to the newly created hash table, NULL on failure
 */
 hash_table_t *hash_table_create(unsigned long int size)
 {
