@@ -1,0 +1,18 @@
+# 1-Makefile
+
+# Compiler
+CC = gcc
+
+# Source files
+SRC = main.c school.c
+
+# Target: school (executable)
+school:
+	$(CC) $(SRC) -o school
+
+# Phony target (no actual file)
+all: school
+
+# Clean up generated files
+clean:
+	rm -f school
