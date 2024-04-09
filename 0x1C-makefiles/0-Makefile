@@ -1,0 +1,12 @@
+# 0-Makefile
+
+# Target: school (executable)
+school:
+	gcc main.c school.c -o school
+
+# target (no actual file)
+all: school
+
+# Clean up generated files
+clean:
+	rm -f school
