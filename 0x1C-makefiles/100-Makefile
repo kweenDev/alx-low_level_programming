@@ -1,41 +1,21 @@
-# 100-Makefile
-
-# Compiler
 CC = gcc
-
-# Source files
-SRC = main.c school.c
-
-# Object files (automatically generated from source files)
+SRC = main.c holberton.c
 OBJ = $(SRC:.c=.o)
-
-# Executable name
-NAME = school
-
-# Program to delete files
+NAME = holberton
 RM = rm -f
-
-# Compiler flags
 CFLAGS = -Wall -Werror -Wextra -pedantic
 
-# Target: all (build the executable)
-all: $(NAME)
+all: ${OBJ}
+	${CC} ${CFLAGS} ${OBJ} -o ${NAME}
 
-# Rule to build the executable
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
-
-# Rule to compile .c files into .o files
-%.o: %.c m.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Phony targets
 clean:
-	$(RM) $(OBJ) $(NAME)
+	${RM} *~ ${NAME}
 
 oclean:
-	$(RM) $(OBJ)
+	${RM} ${OBJ}
 
-fclean: clean
+fclean:
+	${RM} *~ ${NAME}
+	${RM} ${OBJ}
 
 re: fclean all
